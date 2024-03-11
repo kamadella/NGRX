@@ -1,7 +1,7 @@
-import { CounterMOdel } from "./counter.model";
+import { CounterModel } from "./counter.model";
 
 
-export const initialState:CounterMOdel ={
+export const initialState:CounterModel ={
     counter:5,
     channelname: "Psie Plecionki"
 }

@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { CounterMOdel } from '../../shared/store/counter.model';
+import { CounterModel } from '../../shared/store/counter.model';
 import { Observable, Subscription } from 'rxjs';
+import { AppStateModel } from '../../shared/store/Global/AppState.Model';
 
 @Component({
   selector: 'app-counterdisplay',
@@ -9,15 +10,11 @@ import { Observable, Subscription } from 'rxjs';
   styleUrl: './counterdisplay.component.css'
 })
 export class CounterdisplayComponent implements OnInit{
-  constructor(private store:Store<{counter: CounterMOdel}>) {
+  constructor(private store:Store<AppStateModel>) {
 
   }
 
-
-  counterDisplay!:number;
-  channelName!:string;
-  countersubscribe!: Subscription;
-  counter$!:Observable<CounterMOdel>;
+  counter$!:Observable<CounterModel>;
 
   ngOnInit(): void {
     this.counter$ = this.store.select('counter');
