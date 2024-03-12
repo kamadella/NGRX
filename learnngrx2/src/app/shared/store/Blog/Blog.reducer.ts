@@ -1,7 +1,8 @@
 import { createReducer,on } from "@ngrx/store";
 import { BlogState } from "./Blog.state";
-import { addblog, deleteblog, loadblog, loadblogsuccess, updateblog } from "./Blog.actions";
+import { addblog, addblogsuccess, deleteblog, loadblog, loadblogfail, loadblogsuccess, updateblog } from "./Blog.actions";
 import { BlogModel } from "./Blog.model";
+
 
 const _blogReducer = createReducer(BlogState,
     on(loadblog, (state) => {
@@ -12,12 +13,29 @@ const _blogReducer = createReducer(BlogState,
     on(loadblogsuccess, (state,action) => {
         return {
             ...state,
-            blogList:[...action.bloglist]
+            blogList:[...action.bloglist],
+            Errormessage:''
         };
     }),
-    on(addblog, (state, action) => { //przyjmuje aktualny stan i obiekt akcji, 
+    on(loadblogfail, (state,action) => {
+        console.log(action.Errortext)
+        return{
+            ...state,
+            bloglist:[],
+            Errormessage:action.Errortext.message
+        };
+    }),
+    
+    // on(addblog, (state, action) => { //przyjmuje aktualny stan i obiekt akcji, 
+    //     const _blog ={...action.bloginput} //bloginput bo tak sie w akcji nazywa 
+    //     _blog.id = state.blogList.length + 1;
+    //     return { // a następnie zwraca nowy stan
+    //         ...state,
+    //         blogList:[...state.blogList, _blog]
+    //     };
+    // }),
+    on(addblogsuccess, (state, action) => { //przyjmuje aktualny stan i obiekt akcji, 
         const _blog ={...action.bloginput} //bloginput bo tak sie w akcji nazywa 
-        _blog.id = state.blogList.length + 1;
         return { // a następnie zwraca nowy stan
             ...state,
             blogList:[...state.blogList, _blog]

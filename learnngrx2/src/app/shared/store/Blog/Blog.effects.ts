@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core"
 import { Actions, createEffect, ofType } from "@ngrx/effects"
 import { MasterService } from "../../master.service"
-import { LOAD_BLOG, addblog, deleteblog, loadblogfail, loadblogsuccess } from "./Blog.actions"
+import { LOAD_BLOG, addblog, addblogsuccess, deleteblog, loadblogfail, loadblogsuccess } from "./Blog.actions"
 import { EMPTY, catchError, exhaustMap, map, mergeMap, of, switchMap } from "rxjs"
 import { BlogModel } from "./Blog.model"
 import { MatSnackBar } from "@angular/material/snack-bar"
@@ -12,7 +12,7 @@ export class BlogEffects {
 
     }
 
-    _blog = createEffect(() =>
+    _loadblog = createEffect(() =>
         this.action$
             .pipe(
                 ofType(LOAD_BLOG),
@@ -24,10 +24,24 @@ export class BlogEffects {
                             */
                             return loadblogsuccess({ bloglist: data });
                         }),
-                        catchError(() => EMPTY)
+                        catchError((_error) => of(loadblogfail({ Errortext: _error.message })))
                     )
                 })
             )
+    );
+
+    _AddBlog = createEffect(() =>
+        this.action$.pipe(
+            ofType(addblog),
+            exhaustMap(action => {
+                return this.service.CreateBlog(action.bloginput).pipe(
+                    map((data) => {
+                        return addblogsuccess({ bloginput: data as BlogModel});
+                    }), 
+                    catchError((_error) => of(loadblogfail({ Errortext: _error.message })))
+                )
+            })
+        )
     );
 
 

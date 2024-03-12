@@ -16,7 +16,7 @@ export class MasterService {
 
   CreateBlog(bloginput: BlogModel) {
     return this.http.post("http://localhost:3000/Blogs", bloginput).pipe(
-      tap(()=>{
+      tap(()=>{ //po dodaniu pobieram ostatni stworzony blog
         this.http.get<BlogModel>("http://localhost:3000/Blogs?_limit=1&_sort=id&_order=desc");
       })
     )
