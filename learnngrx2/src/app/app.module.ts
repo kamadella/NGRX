@@ -17,6 +17,9 @@ import { EditblogComponent } from './component/editblog/editblog.component';
 import { HomeComponent } from './component/home/home.component';
 import { AppState } from './shared/store/Global/App.state';
 import { AddblogComponent } from './component/addblog/addblog.component';
+import { HttpClientModule } from '@angular/common/http';
+import { EffectsModule } from '@ngrx/effects';
+import { BlogEffects } from './shared/store/Blog/Blog.effects';
 
 @NgModule({
   declarations: [
@@ -37,7 +40,9 @@ import { AddblogComponent } from './component/addblog/addblog.component';
     MaterialModule,
     StoreModule.forRoot(AppState),
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule,
+    EffectsModule.forRoot([BlogEffects])
   ],
   providers: [
     provideClientHydration(),

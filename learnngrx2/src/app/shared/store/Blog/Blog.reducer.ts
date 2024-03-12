@@ -1,12 +1,18 @@
 import { createReducer,on } from "@ngrx/store";
 import { BlogState } from "./Blog.state";
-import { addblog, deleteblog, loadblog, updateblog } from "./Blog.actions";
+import { addblog, deleteblog, loadblog, loadblogsuccess, updateblog } from "./Blog.actions";
 import { BlogModel } from "./Blog.model";
 
 const _blogReducer = createReducer(BlogState,
     on(loadblog, (state) => {
         return {
             ...state
+        };
+    }),
+    on(loadblogsuccess, (state,action) => {
+        return {
+            ...state,
+            blogList:[...action.bloglist]
         };
     }),
     on(addblog, (state, action) => { //przyjmuje aktualny stan i obiekt akcji, 
