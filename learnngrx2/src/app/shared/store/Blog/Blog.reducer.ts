@@ -1,6 +1,6 @@
 import { createReducer,on } from "@ngrx/store";
 import { BlogState } from "./Blog.state";
-import { addblog, addblogsuccess, deleteblog, loadblog, loadblogfail, loadblogsuccess, updateblog } from "./Blog.actions";
+import { addblog, addblogsuccess, deleteblog, loadblog, loadblogfail, loadblogsuccess, updateblog, updateblogsuccess } from "./Blog.actions";
 import { BlogModel } from "./Blog.model";
 
 
@@ -41,7 +41,7 @@ const _blogReducer = createReducer(BlogState,
             blogList:[...state.blogList, _blog]
         };
     }),
-    on(updateblog, (state, action) => {
+    on(updateblogsuccess, (state, action) => {
         const _blog ={...action.bloginput}
         const updatedblogs=state.blogList.map(blog=>{ //mapuje listę istniejących wpisów bloga (state.blogList) na nową listę, w której wpis zaktualizowany zastępuje stary wpis o tym samym ID.
             /*
