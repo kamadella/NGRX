@@ -4,7 +4,8 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AppStateModel } from '../../shared/store/Global/AppState.Model';
 import { Store } from '@ngrx/store';
 import { FormBuilder, Validators } from '@angular/forms';
-import { addblog } from '../../shared/store/Blog/Blog.actions';
+import { addblog, updateblog } from '../../shared/store/Blog/Blog.actions';
+import { getblogbyid } from '../../shared/store/Blog/Blog.selector';
 
 @Component({
   selector: 'app-addblog',
@@ -22,6 +23,13 @@ export class AddblogComponent implements OnInit {
 
   ngOnInit(): void {
     this.pagetitle = this.data.title;
+    if (this.data.isedit) {
+      this.editblogid = this.data.id;
+      this.store.select(getblogbyid(this.editblogid)).subscribe(_data => {
+        this.editdata = _data;
+        this.blogform.setValue({ id: this.editdata.id, title: this.editdata.title, description: this.editdata.description });
+      });
+    }
   }
 
   blogform = this.builder.group({
@@ -37,8 +45,15 @@ export class AddblogComponent implements OnInit {
         title: this.blogform.value.title as string,
         description: this.blogform.value.description as string
       }
-      this.store.dispatch(addblog({ bloginput: _bloginput }))
-      this.closepopup();
+      if(this.data.isedit){
+        _bloginput.id=this.blogform.value.id as number;
+        this.store.dispatch(updateblog({ bloginput: _bloginput }))
+        this.closepopup();
+      }
+      else{
+        this.store.dispatch(addblog({ bloginput: _bloginput }))
+        this.closepopup();
+      }
     }
   }
 

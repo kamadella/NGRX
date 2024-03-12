@@ -6,6 +6,7 @@ import { getblog } from '../../shared/store/Blog/Blog.selector';
 import { AppStateModel } from '../../shared/store/Global/AppState.Model';
 import { MatDialog } from '@angular/material/dialog';
 import { AddblogComponent } from '../addblog/addblog.component';
+import { deleteblog } from '../../shared/store/Blog/Blog.actions';
 
 @Component({
   selector: 'app-blog',
@@ -27,8 +28,27 @@ export class BlogComponent implements OnInit{
   }
 
   AddBlog(){
+    this.OpenPopup(0, 'Add Blog');
+  }
+
+  EditBlog(id: any){
+    this.OpenPopup(id, 'Edit Blog', true);
+  }
+
+  RemoveBlog(id: any){
+    if(confirm("Jesteś pewien że chcesz usunąć?")){
+      this.store.dispatch(deleteblog({id:id}));
+    }
+  }
+
+  OpenPopup(id:any, title:any,isedit=false){
     this.dialog.open(AddblogComponent, {
-      width: '40%'
+      width: '40%',
+      data: {
+        id:id,
+        title:title,
+        isedit:isedit
+      }
     })
   }
 }

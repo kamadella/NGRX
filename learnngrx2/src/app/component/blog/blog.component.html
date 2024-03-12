@@ -13,8 +13,8 @@
         <mat-card-header>
             <h1>{{item.title}}</h1>
             <div style="text-align: right;width: 100%;">
-                <button mat-raised-button color="primary"><mat-icon fontIcon="edit"></mat-icon></button>
-                <button mat-raised-button color="accent"><mat-icon fontIcon="delete"></mat-icon></button>
+                <button mat-raised-button color="primary" (click)="EditBlog(item.id)"><mat-icon fontIcon="edit"></mat-icon></button>
+                <button mat-raised-button color="accent" (click)="RemoveBlog(item.id)"><mat-icon fontIcon="delete"></mat-icon></button>
             </div>
         </mat-card-header>
         <mat-card-content>
